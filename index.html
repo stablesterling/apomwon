@@ -522,9 +522,9 @@
     <span>i'm here, and i'm listening.</span>
   </div>
 
-  <!-- Hidden audio player with your specific file -->
-  <audio class="hidden-audio" autoplay loop>
-    <source src="https://github.com/stablesterling/apomwon/blob/main/i-have-no-enemies-ahh-sound-made-with-Voicemod.mp3?raw=true" type="audio/mpeg">
+  <!-- Hidden audio player with improved autoplay logic -->
+  <audio id="bgMusic" loop>
+    <source src="https://raw.githubusercontent.com/stablesterling/apomwon/main/i-have-no-enemies-ahh-sound-made-with-Voicemod.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
@@ -538,6 +538,24 @@
 
 <script>
   (function() {
+    // ============================================
+    // BACKGROUND MUSIC - AUTO-PLAY WITH FALLBACK
+    // ============================================
+    const audio = document.getElementById('bgMusic');
+    
+    // Try to play automatically
+    audio.play().catch(function(error) {
+      console.log('Auto-play blocked. Will play on user interaction.');
+      // Play on any click if auto-play is blocked
+      document.addEventListener('click', function playOnClick() {
+        audio.play();
+        document.removeEventListener('click', playOnClick);
+      }, { once: true });
+    });
+
+    // ============================================
+    // EXISTING APOLOGY PAGE LOGIC
+    // ============================================
     const extraDiv = document.getElementById('extra-message');
     const defaultMessage = "i'm here, and i'm listening.";
 
